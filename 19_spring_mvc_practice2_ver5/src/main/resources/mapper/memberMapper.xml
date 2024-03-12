@@ -66,11 +66,12 @@ FROM
 WHERE 
 		MEMBER_ID = #{memberId}
 </select>
-<update id="updateMember" parameterType="MemberDTO" >
-UPDATE 
-		MEMBER
-<set>
-		<if test='profileOriginalName != null and !profileOriginalName.equals("")'>
+
+		<update id="updateMember" parameterType="MemberDTO">
+		UPDATE
+				MEMBER
+		<set>
+			<if test='profileOriginalName != null and !profileOriginalName.equals("")'>
 				PROFILE_ORIGINAL_NAME = #{profileOriginalName},
 			</if>
 			<if test='profileUUID != null and !profileUUID.equals("")'>
@@ -112,10 +113,10 @@ UPDATE
 			<if test='etc != null and !etc.equals("")'>
 				ETC = #{etc}
 			</if>
-</set>
-WHERE 
-		MEMBER_ID = #{memberId}
-</update>
+		</set>
+		WHERE
+				MEMBER_ID = #{memberId}
+	</update>	
 <update id="udpateInactiveMember" parameterType="String">
 UPDATE
 		 MEMBER
