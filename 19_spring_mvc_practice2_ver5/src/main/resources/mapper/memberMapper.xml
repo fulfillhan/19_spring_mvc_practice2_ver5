@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.application.practice2Ver5.dao.MemberDAO">
+<insert id="createMember" parameterType="MemberDTO">
+	INSERT INTO MEMBER (
+		MEMBER_ID,
+		PASSWD,
+		PROFILE_ORIGINAL_NAME,
+		PROFILE_UUID,
+		MEMBER_NM,
+		SEX,
+		BIRTH_AT,
+		HP,
+		SMSSTS_YN,
+		EMAIL,
+		EMAILSTS_YN,
+		ZIPCODE,
+		ROAD_ADDRESS,
+		JIBUN_ADDRESS,
+		NAMUJI_ADDRESS,
+		ETC
+	) 
+	VALUES (
+		#{memberId},
+		#{passwd},
+		#{profileOriginalName},
+		#{profileUUID},
+		#{memberNm},
+		#{sex},
+		#{birthAt},
+		#{hp},
+		#{smsstsYn},
+		#{email},
+		#{emailstsYn},
+		#{zipcode},
+		#{roadAddress},
+		#{jibunAddress},
+		#{namujiAddress},
+		#{etc}
+	 )
+</insert>
+<select id="getChekcId" parameterType="String" resultType="String">
+SELECT 
+		MEMBER_ID
+FROM 
+		MEMBER
+WHERE 
+		MEMBER_ID=#{memberId}
+</select>
+
+<select id="isLogin" parameterType="String" resultType="MemberDTO">
+SELECT 
+		PASSWD,
+		ACTIVE_YN
+FROM
+		MEMBER
+WHERE
+		MEMBER_ID=#{memberId}
+</select>
+
+<select id="getMemberDetail" parameterType="String" resultType="MemberDTO">
+SELECT 
+		*
+FROM 
+		MEMBER
+WHERE 
+		MEMBER_ID = #{memberId}
+</select>
+<update id="updateMember" parameterType="MemberDTO" >
+UPDATE 
+		MEMBER
+<set>
+		<if test='profileOriginalName != null and !profileOriginalName.equals("")'>
+				PROFILE_ORIGINAL_NAME = #{profileOriginalName},
+			</if>
+			<if test='profileUUID != null and !profileUUID.equals("")'>
+				PROFILE_UUID = #{profileUUID},
+			</if>
+			<if test='memberNm != null and !memberNm.equals("")'>
+				MEMBER_NM = #{memberNm},
+			</if>
+			<if test='sex != null and !sex.equals("")'>
+				SEX = #{sex}, 
+			</if>
+			<if test='birthAt != null and !birthAt.equals("")'>
+				BIRTH_AT = #{birthAt}, 
+			</if>
+			<if test='hp != null and !hp.equals("")'>
+				HP = #{hp},  
+			</if>
+			<if test='smsstsYn != null and !smsstsYn.equals("")'>
+				SMSSTS_YN = #{smsstsYn},  
+			</if>
+			<if test='email != null and !email.equals("")'>
+				EMAIL = #{email}, 
+			</if>
+			<if test='emailstsYn != null and !emailstsYn.equals("")'>
+				EMAILSTS_YN = #{emailstsYn},  
+			</if>
+			<if test='zipcode != null and !zipcode.equals("")'>
+				ZIPCODE = #{zipcode},  
+			</if>
+			<if test='roadAddress != null and !roadAddress.equals("")'>
+				ROAD_ADDRESS = #{roadAddress},
+			</if>
+			<if test='jibunAddress != null and !jibunAddress.equals("")'>
+				JIBUN_ADDRESS = #{jibunAddress},  
+			</if>
+			<if test='namujiAddress != null and !namujiAddress.equals("")'>
+				NAMUJI_ADDRESS = #{namujiAddress},  
+			</if>
+			<if test='etc != null and !etc.equals("")'>
+				ETC = #{etc}
+			</if>
+</set>
+WHERE 
+		MEMBER_ID = #{memberId}
+</update>
+<update id="udpateInactiveMember" parameterType="String">
+UPDATE
+		 MEMBER
+SET
+		ACTIVE_YN = "n",
+		INACTIVE_AT = NOW()
+FROM
+		MEMBER_ID = #{memberId}
+</update>
+
+<select id="updateTodayMemberCnt" parameterType="String"> 
+SELECT 
+		COUNT(MEMBER_ID)
+FROM 
+		MEMBER
+WHERE 
+		JOIN_AY=#{today}
+</select>
+
+</mapper>
