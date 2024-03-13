@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -131,6 +132,22 @@ public class MemberServiceImpl implements MemberService {
 		String today = sdf.format(new Date());
 		 int todayMemberCnt = memberDAO.updateTodayMemberCnt(today);
 	}
+
+	@Override
+	@Scheduled(cron = "59 59 23 * * *")
+	public void deleteMemberScheduler() {
+		// 삭제할 회원들의 리스트 갖고오기
+		List<MemberDTO> deleteMemberList = memberDAO.getDeleteMemberList();
+		if(!deleteMemberList.isEmpty()) {
+			for (MemberDTO memberDTO : deleteMemberList) {
+				new File(fileRepositoryPath+memberDTO.getProfileUUID()).delete();
+				memberDAO.deleteMember(memberDTO.getMemberId());
+			}
+		}
+		
+	}
+	
+	
 
 	
 

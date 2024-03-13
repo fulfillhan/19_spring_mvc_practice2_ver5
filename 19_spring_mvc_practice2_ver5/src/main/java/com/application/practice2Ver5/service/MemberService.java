@@ -21,6 +21,6 @@ public interface MemberService {
 	public void udpateInactiveMember(String memberId);
 	
 	public void updateTodayMemberCnt();
-	//public void deleteMemberScheduler(); ->여기서부터
+	public void deleteMemberScheduler(); 
 
 }

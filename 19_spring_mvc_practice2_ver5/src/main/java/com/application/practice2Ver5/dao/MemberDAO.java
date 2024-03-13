@@ -1,5 +1,7 @@
 package com.application.practice2Ver5.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.application.practice2Ver5.dto.MemberDTO;
@@ -20,6 +22,10 @@ public interface MemberDAO {
 	public void udpateInactiveMember(String memberId);
 
 	public int updateTodayMemberCnt(String today);
+
+	public List<MemberDTO> getDeleteMemberList();
+
+	public void deleteMember(String memberId);
 	
 
 }
